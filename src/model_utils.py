@@ -67,6 +67,7 @@ def prepare_training_config(output_dir, **kwargs):
         num_train_epochs=kwargs.get("num_train_epochs", 1),
         max_grad_norm=kwargs.get("max_grad_norm", 0.3),
         lr_scheduler_type=kwargs.get("lr_scheduler_type", "reduce_lr_on_plateau"),
+        report_to=kwargs.get("report_to", None)
     )
     return training_args
 

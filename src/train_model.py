@@ -41,6 +41,7 @@ def main():
     parser.add_argument("--num_train_epochs", type=int, default=1, help="Number of training epochs.")
     parser.add_argument("--max_grad_norm", type=float, default=0.3, help="Maximum gradient norm.")
     parser.add_argument("--lr_scheduler_type", type=str, default="reduce_lr_on_plateau", help="Type of learning rate scheduler.")
+    parser.add_argument("--report_to", type=str, default=None, help="Experiment tracking services to report to.")
 
     args = parser.parse_args()
 
