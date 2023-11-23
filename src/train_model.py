@@ -50,7 +50,8 @@ def main():
                                                       args.bnb_4bit_use_double_quant, 
                                                       args.bnb_4bit_quant_type, 
                                                       args.bnb_4bit_compute_dtype, 
-                                                      args.lora_r, args.lora_alpha, 
+                                                      args.lora_r, 
+                                                      args.lora_alpha, 
                                                       args.lora_dropout, 
                                                       args.lora_bias, 
                                                       args.lora_target_modules
