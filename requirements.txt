@@ -1,0 +1,8 @@
+git+https://github.com/huggingface/peft.git
+accelerate
+datasets
+trl
+transformers
+bitsandbytes
+safetensors
+flash-attn
