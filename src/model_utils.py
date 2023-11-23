@@ -1,6 +1,6 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, BitsAndBytesConfig
 from trl import SFTTrainer
-from peft import LoraConfig, prepare_model_for_kbit_training, get_peft_model
+from peft import LoraConfig, prepare_model_for_kbit_training, get_peft_model, AutoPeftModelForCausalLM
 from datasets import load_dataset
 import torch
 import os
@@ -84,3 +84,25 @@ def train_model(model, tokenizer, train_dataset, val_dataset, training_args, lor
         packing=True
     )
     trainer.train()
+    trainer.save_model()
+
+def merge_models(output_dir):
+    # Load the trained model for merging
+    tuned_model = AutoPeftModelForCausalLM.from_pretrained(
+        output_dir,
+        torch_dtype=torch.bfloat16,
+        device_map='auto',
+        trust_remote_code=True,
+    )
+
+    # Perform the merge operation
+    merged_model = tuned_model.merge_and_unload()
+    
+    return merged_model
+
+def push_to_hub(model, tokenizer, hf_username, hf_repo_name):
+    # Push the merged model to the Hub
+    model.push_to_hub(f"{hf_username}/{hf_repo_name}")
+    
+    # Push the tokenizer to the Hub
+    tokenizer.push_to_hub(f"{hf_username}/{hf_repo_name}")

@@ -8,6 +8,9 @@ def main():
     parser.add_argument("--model_id", type=str, required=True, help="The model identifier.")
     parser.add_argument("--dataset", type=str, required=True, help="Dataset name.")
     parser.add_argument("--output_dir", type=str, required=True, help="Output directory for training results.")
+    parser.add_argument("--hf_username", type=str, required=True, help="Hugging Face username for pushing the model to the Hub.")
+    parser.add_argument("--hf_repo_name", type=str, required=True, help="Repository name for the model on the Hugging Face Hub.")
+
 
     # Optional BnB configuration arguments
     parser.add_argument("--bnb_load_in_4bit", type=bool, default=True, help="Load model in 4-bit.")
@@ -42,7 +45,16 @@ def main():
     args = parser.parse_args()
 
     # Initialize model with BnB and LoRA configuration
-    model, lora_config = model_utils.initialize_model(args.model_id, args.bnb_load_in_4bit, args.bnb_4bit_use_double_quant, args.bnb_4bit_quant_type, args.bnb_4bit_compute_dtype, args.lora_r, args.lora_alpha, args.lora_dropout, args.lora_bias, args.lora_target_modules)
+    model, lora_config = model_utils.initialize_model(args.model_id, 
+                                                      args.bnb_load_in_4bit, 
+                                                      args.bnb_4bit_use_double_quant, 
+                                                      args.bnb_4bit_quant_type, 
+                                                      args.bnb_4bit_compute_dtype, 
+                                                      args.lora_r, args.lora_alpha, 
+                                                      args.lora_dropout, 
+                                                      args.lora_bias, 
+                                                      args.lora_target_modules
+                                                      )
 
     # Initialize tokenizer
     tokenizer = model_utils.initialize_tokenizer(args.model_id)
@@ -71,7 +83,21 @@ def main():
     )
 
     # Train the model
-    model_utils.train_model(model, tokenizer, dataset['train'], dataset['validation'], training_args, lora_config)
+    model_utils.train_model(model, 
+                            tokenizer, 
+                            dataset['train'], 
+                            dataset['validation'], 
+                            training_args, 
+                            lora_config
+                            )
+    
+    merged_model = model_utils.merge_models(args.output_dir)
+    
+    model_utils.push_to_hub(merged_model, 
+                            tokenizer, 
+                            args.hf_username, 
+                            args.hf_repo_name
+                            )
 
 if __name__ == "__main__":
     main()
