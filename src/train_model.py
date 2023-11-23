@@ -88,7 +88,7 @@ def main():
     model_utils.train_model(model, 
                             tokenizer, 
                             dataset['train'], 
-                            dataset['validation'], 
+                            dataset['test'], 
                             training_args, 
                             lora_config
                             )
