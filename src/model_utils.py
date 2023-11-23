@@ -1,7 +1,7 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, BitsAndBytesConfig
 from trl import SFTTrainer
 from peft import LoraConfig, prepare_model_for_kbit_training, get_peft_model, AutoPeftModelForCausalLM
-from datasets import load_dataset
+from datasets import load_dataset, load_from_disk
 import torch
 import os
 
@@ -46,7 +46,7 @@ def initialize_tokenizer(model_id):
 
 # Load dataset
 def load_dataset_custom(dataset_name):
-    return load_dataset(dataset_name)
+    return load_from_disk(dataset_name)
 
 # Prepare training configuration
 def prepare_training_config(output_dir, **kwargs):
