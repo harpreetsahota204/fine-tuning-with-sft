@@ -78,6 +78,7 @@ def train_model(model, tokenizer, train_dataset, val_dataset, training_args, lor
         args=training_args,
         peft_config=lora_config,
         tokenizer=tokenizer,
+        dataset_text_field='text',
         train_dataset=train_dataset,
         eval_dataset=val_dataset,
         max_seq_length=4096,
