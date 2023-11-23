@@ -104,7 +104,7 @@ def merge_models(output_dir):
 
 def push_to_hub(model, tokenizer, hf_username, hf_repo_name):
     # Push the merged model to the Hub
-    model.push_to_hub(f"{hf_username}/{hf_repo_name}")
+    model.push_to_hub(f"{hf_username}/{hf_repo_name}", private=True)
     
     # Push the tokenizer to the Hub
-    tokenizer.push_to_hub(f"{hf_username}/{hf_repo_name}")
+    tokenizer.push_to_hub(f"{hf_username}/{hf_repo_name}", private=True)
