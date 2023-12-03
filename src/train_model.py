@@ -23,7 +23,7 @@ def main():
     parser.add_argument("--lora_alpha", type=int, default=32, help="Alpha parameter for LoRA.")
     parser.add_argument("--lora_dropout", type=float, default=0.1, help="Dropout rate for LoRA layers.")
     parser.add_argument("--lora_bias", type=str, default="none", help="Bias setting for LoRA.")
-    parser.add_argument("--lora_target_modules", type=str, nargs='+', default=['gate_proj', 'down_proj', 'up_proj'], help="Target modules for LoRA.")
+    parser.add_argument("--lora_target_modules", type=str, nargs='+', default=None, help="Target modules for LoRA.")
 
     # Optional training configuration arguments
     parser.add_argument("--evaluation_strategy", type=str, default="steps", help="Evaluation strategy.")
